@@ -29,7 +29,7 @@ app.listen(CONFIG.port, err => {
 		process.exit(1);
 	}
 
-	//require('./utils/db');
+	require('./utils/db').default;
 
 	// fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
 	// 	require(`./routes/${CONFIG.version}/` + file)(app);
