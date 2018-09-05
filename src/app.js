@@ -18,10 +18,10 @@ app.use(cors());
 
 const logger = winston.loggers.get('default'); 
 
-app.use('/', function(req, res){
-	res.statusCode = 200;//send the appropriate status code
-	res.json({status:"success", message:"Mongo API", data:{}})
-});
+// app.use('/', function(req, res){
+// 	res.statusCode = 200;//send the appropriate status code
+// 	res.json({status:"success", message:"Mongo API", data:{}})
+// });
 
 app.listen(CONFIG.port, err => {
 	if (err) {
@@ -31,9 +31,10 @@ app.listen(CONFIG.port, err => {
 
 	require('./utils/db').default;
 
-	// fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
-	// 	require(`./routes/${CONFIG.version}/` + file)(app);
-	// });
+	fs.readdirSync(path.join(__dirname, `routes/${CONFIG.version}`)).map(file => {
+        var route = require(`./routes/v1/` + file);
+        route.routesConfig(app);
+	});
 
 	logger.info(
 		`API ${CONFIG.version} is now running on port ${CONFIG.port} in ${CONFIG.app} mode`
