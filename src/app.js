@@ -18,10 +18,33 @@ app.use(cors());
 
 const logger = winston.loggers.get('default'); 
 
+fs.readdirSync(path.join(__dirname, `routes/${CONFIG.version}`)).map(file => {
+    var route = require(`./routes/v1/` + file);
+    route.routesConfig(app);
+});
+
 // app.use('/', function(req, res){
 // 	res.statusCode = 200;//send the appropriate status code
 // 	res.json({status:"success", message:"Mongo API", data:{}})
 // });
+
+//catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+  
+  // error handler
+app.use(function(err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+});
 
 app.listen(CONFIG.port, err => {
 	if (err) {
@@ -30,11 +53,6 @@ app.listen(CONFIG.port, err => {
 	}
 
 	require('./utils/db').default;
-
-	fs.readdirSync(path.join(__dirname, `routes/${CONFIG.version}`)).map(file => {
-        var route = require(`./routes/v1/` + file);
-        route.routesConfig(app);
-	});
 
 	logger.info(
 		`API ${CONFIG.version} is now running on port ${CONFIG.port} in ${CONFIG.app} mode`
