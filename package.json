@@ -32,5 +32,9 @@
     "swagger-ui-express": "^2.0.13",
     "sync-request": "^4.0.2",
     "winston": "^3.0.0"
+  },
+  "engines": {
+    "node": "8.11.3",
+    "npm": "6.4.1"
   }
 }

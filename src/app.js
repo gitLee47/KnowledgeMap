@@ -55,7 +55,7 @@ app.listen(CONFIG.port, err => {
 		process.exit(1);
 	}
 
-	require('./utils/db').default;
+	//require('./utils/db').default;
 
 	logger.info(
 		`API ${CONFIG.version} is now running on port ${CONFIG.port} in ${CONFIG.app} mode`
